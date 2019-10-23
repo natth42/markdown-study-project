@@ -1,22 +1,83 @@
+body {
+  overflow: hidden;
+}
+
 .App {
   text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+  min-height: 94vh;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  max-height: 100vh;
 }
 
-.App-link {
-  color: #09d3ac;
+*:focus {
+  outline: 0;
+}
+
+.fileTab {
+  background-color: #000;
+  display: flex;
+}
+
+.fileName {
+  color: #fff;
+  background-color: #333;
+  justify-content: start;
+  padding: 0.5rem;
+  font-size: 0.9em;
+}
+
+.textarea {
+  background-color: #333;
+  color: #fff;
+  height: 40vh;
+  border: none;
+  padding: 3rem;
+  font-size: 1em;
+}
+
+.result {
+  margin-top: 1rem;
+}
+
+.btn {
+  width: 2rem;
+  height: 2rem;
+  border: none;
+  background-color: #8b0b8bd1;
+  border-radius: 1rem;
+  color: #fff;
+  position: fixed;
+  top: 50%;
+  right: 1%;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background-color: #a80fa8d1;
+}
+
+.box {
+  text-align: center;
+  background-color: #333;
+  color: #fff;
+  width: 15rem;
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: translateY(500px);
+  z-index: -1;
+  transition: transform 800ms cubic-bezier(0.68, -0.55, 0.27, 1.55);
+  position: absolute;
+  bottom: 0;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+}
+
+.container.saved .box {
+  transform: translateY(0px);
 }
