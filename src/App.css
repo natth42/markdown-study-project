@@ -53,6 +53,10 @@ body {
   cursor: pointer;
 }
 
+.btn:nth-child(2) {
+  right: 5%;
+}
+
 .btn:hover {
   background-color: #a80fa8d1;
 }

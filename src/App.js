@@ -7,6 +7,7 @@ import Alert from './components/alert';
 
 const App = () => {
   const [markup, setMarkup] = useState('')
+  const [message, setMessage] = useState('')
 
   useEffect(() => {
     const marked = localStorage.getItem('file')
@@ -27,13 +28,24 @@ const App = () => {
 
   const getMarkup = () => ({ __html: marked(markup) })
 
-  const saveLocalStorage = () => {
+  const toggleMessage = (text) => {
+    setMessage(text)
     const container = document.querySelector('.container');
-    localStorage.setItem('file', markup)
     container.classList.toggle('saved');
     setTimeout(() => {
       container.classList.toggle('saved');
     }, 3000);
+  }
+
+  const saveLocalStorage = () => {
+    localStorage.setItem('file', markup)
+    toggleMessage("Salvo!")
+  }
+
+  const removeLocalStorage = () => {
+    localStorage.removeItem('file')
+    setMarkup('')
+    toggleMessage("Removido!")
   }
 
   return (
@@ -46,9 +58,10 @@ const App = () => {
         </div>
         <textarea value={markup} onChange={handleSubmit} className="textarea" autoFocus />
         <div className="result" dangerouslySetInnerHTML={getMarkup()}></div>
-        <Alert text="Salvo!" />
+        <Alert text={message} />
       </div>
       <button className="btn" onClick={() => saveLocalStorage()}>✔</button>
+      <button className="btn" onClick={() => removeLocalStorage()}>✖</button>
     </>
   );
 }
