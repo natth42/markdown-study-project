@@ -8,13 +8,15 @@ import Alert from './components/alert';
 const App = () => {
   const [markup, setMarkup] = useState('')
   const [message, setMessage] = useState('')
+  const [isTextNotSaved, setIsTextNotSaved] = useState(false)
 
   useEffect(() => {
     const marked = localStorage.getItem('file')
     setMarkup(marked || '')
   }, [])
 
-  const handleSubmit = e => {
+  const handleChange = e => {
+    setIsTextNotSaved(true)
     setMarkup(e.target.value);
   }
 
@@ -38,11 +40,13 @@ const App = () => {
   }
 
   const saveLocalStorage = () => {
+    setIsTextNotSaved(false)
     localStorage.setItem('file', markup)
     toggleMessage("Salvo!")
   }
 
   const removeLocalStorage = () => {
+    setIsTextNotSaved(false)
     localStorage.removeItem('file')
     setMarkup('')
     toggleMessage("Removido!")
@@ -53,10 +57,10 @@ const App = () => {
       <div className="App">
         <div className="fileTab">
           <div className="fileName">
-            newFile.md
+            newFile.md {isTextNotSaved ? '*' : ''}
           </div>
         </div>
-        <textarea value={markup} onChange={handleSubmit} className="textarea" autoFocus />
+        <textarea value={markup} onChange={handleChange} className="textarea" autoFocus />
         <div className="result" dangerouslySetInnerHTML={getMarkup()}></div>
         <Alert text={message} />
       </div>

@@ -37,7 +37,8 @@ body {
 }
 
 .result {
-  margin-top: 1rem;
+  text-align: start;
+  padding: 0.5rem 3rem;
 }
 
 .btn {
@@ -54,7 +55,7 @@ body {
 }
 
 .btn:nth-child(2) {
-  right: 5%;
+  right: 3.5rem;
 }
 
 .btn:hover {
