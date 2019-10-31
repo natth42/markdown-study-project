@@ -16,7 +16,7 @@ const App = () => {
   }, [])
 
   const handleChange = e => {
-    setIsTextNotSaved(true)
+    setIsTextNotSaved(e.target.value !== '')
     setMarkup(e.target.value);
   }
 
