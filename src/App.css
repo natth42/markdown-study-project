@@ -118,8 +118,9 @@ body {
   transform: translateY(500px);
   z-index: -1;
   transition: transform 800ms cubic-bezier(0.68, -0.55, 0.27, 1.55);
-  position: absolute;
+  position: fixed;
   bottom: 0;
+  left: 65%;
 }
 
 .container {
