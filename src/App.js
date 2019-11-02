@@ -1,11 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPlus, faSave, faTimes } from '@fortawesome/free-solid-svg-icons'
 import marked from '../node_modules/marked/lib/marked';
 import '../node_modules/highlight.js/styles/dracula.css';
 import './App.css';
 
 import Alert from './components/alert';
+import FileHeader from './components/fileHeader'
 
 const App = () => {
+  const input = useRef(null)
   const [markup, setMarkup] = useState('')
   const [message, setMessage] = useState('')
   const [isTextNotSaved, setIsTextNotSaved] = useState(false)
@@ -16,7 +20,7 @@ const App = () => {
   }, [])
 
   const handleChange = e => {
-    setIsTextNotSaved(e.target.value !== '')
+    setIsTextNotSaved(markup !== '')
     setMarkup(e.target.value);
   }
 
@@ -39,6 +43,13 @@ const App = () => {
     }, 3000);
   }
 
+  const createFile = () => {
+    console.log('create File!');
+    setMarkup('')
+    setIsTextNotSaved(false)
+    input.current.focus();
+  }
+
   const saveLocalStorage = () => {
     setIsTextNotSaved(false)
     localStorage.setItem('file', markup)
@@ -55,17 +66,31 @@ const App = () => {
   return (
     <>
       <div className="App">
-        <div className="fileTab">
-          <div className="fileName">
-            newFile.md {isTextNotSaved ? '*' : ''}
-          </div>
+        <div className="item">
+          <FileHeader isTextNotSaved={isTextNotSaved} theme="dark">
+            newFile.md
+          </FileHeader>
+          <textarea value={markup} onChange={handleChange} className="textarea" ref={input} autoFocus />
         </div>
-        <textarea value={markup} onChange={handleChange} className="textarea" autoFocus />
-        <div className="result" dangerouslySetInnerHTML={getMarkup()}></div>
+        <div className="item">
+          <FileHeader isTextNotSaved={isTextNotSaved} theme="light">
+            Live Preview
+          </FileHeader>
+          <div className="result" dangerouslySetInnerHTML={getMarkup()}></div>
+        </div>
         <Alert text={message} />
       </div>
-      <button className="btn" onClick={() => saveLocalStorage()}>✔</button>
-      <button className="btn" onClick={() => removeLocalStorage()}>✖</button>
+      <div className="btns">
+        <button className="btn btn-add" onClick={() => createFile()}>
+          <FontAwesomeIcon icon={faPlus} />
+        </button>
+        <button className="btn btn-save" onClick={() => saveLocalStorage()}>
+          <FontAwesomeIcon icon={faSave} />
+        </button>
+        <button className="btn btn-remove" onClick={() => removeLocalStorage()}>
+          <FontAwesomeIcon icon={faTimes} />
+        </button>
+      </div>
     </>
   );
 }
