@@ -1,4 +1,5 @@
 import React from 'react'
+import '../App.css'
 
 const FileHeader = ({ children, isTextNotSaved, theme }) => (
   <div className={`fileTab -${theme}`}>

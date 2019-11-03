@@ -78,7 +78,7 @@ const App = () => {
           </FileHeader>
           <div className="result" dangerouslySetInnerHTML={getMarkup()}></div>
         </div>
-        <Alert text={message} />
+        <Alert text={message} position="65%" animation="jump" />
       </div>
       <div className="btns">
         <button className="btn btn-add" onClick={() => createFile()}>
