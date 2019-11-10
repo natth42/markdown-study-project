@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 const Alert = ({ text, position = "50%", animation}) => (
     <div className="container">
@@ -7,5 +8,11 @@ const Alert = ({ text, position = "50%", animation}) => (
         </div>
     </div>
 )
+
+Alert.propTypes = {
+    animation: PropTypes.string.isRequired,
+    text: PropTypes.string.isRequired,
+    position: PropTypes.string,
+}
 
 export default Alert
