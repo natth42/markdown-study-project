@@ -4,9 +4,53 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-.App {
-  text-align: center;
+.cont {
+  display: grid;
+  grid-template-areas: "list head head head head head head head head"
+                        "list  main main main main main main main main";
+}
+
+.listFiles {
+  background-color: #393c3c;
+  grid-area: list;
+  color: #fff;
+  padding-top: 3rem;
+}
+
+.fileNameInput {
+  background-color: inherit;
+  color: white;
+  border: none;
+  height: 1rem;
+}
+
+.fileList {
+  list-style-type: none;
+}
+
+.fileNameList {
+  padding: 0.5rem;
+  cursor: pointer;
+}
+
+.fileNameList:hover {
+  border-bottom: 1px solid #fff;
+}
+
+.fileNameList.selected {
+  border-bottom: 1px solid #fff;
+}
+
+.header {
   display: flex;
+  height: 100%;
+  background-color: #393c3c;
+  grid-area: head;
+}
+
+.main-content {
+  display: flex;
+  grid-area: main;
 }
 
 .item {
@@ -51,7 +95,6 @@ body {
   background-color: #2C2F2F;
   color: #fff;
   height: 100vh;
-  width: -webkit-fill-available;
   border: none;
   padding: 3rem;
   font-size: 1em;
@@ -80,8 +123,8 @@ body {
 .btns {
   position: fixed;
   display: flex;
-  bottom: 1%;
-  right: 51%;
+  bottom: 2%;
+  right: 45%;
 }
 
 .btn-add {

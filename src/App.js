@@ -1,27 +1,37 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus, faSave, faTimes } from '@fortawesome/free-solid-svg-icons'
-import marked from '../node_modules/marked/lib/marked';
-import '../node_modules/highlight.js/styles/dracula.css';
-import './App.css';
+import marked from '../node_modules/marked/lib/marked'
+import { v4 } from 'node-uuid'
+import '../node_modules/highlight.js/styles/dracula.css'
+import './App.css'
 
-import Alert from './components/alert';
+import Alert from './components/alert'
 import FileHeader from './components/fileHeader'
+import FileList from './components/fileList'
+import RoundButton from './components/roundButton'
 
 const App = () => {
+  const clearMarkup = () => ({
+    fileName: 'NewFile',
+    value: '',
+    id: v4()
+  })
   const input = useRef(null)
-  const [markup, setMarkup] = useState('')
+  const [markup, setMarkup] = useState({...clearMarkup()})
+  const [markupList, setMarkupList] = useState([])
   const [message, setMessage] = useState('')
   const [isTextNotSaved, setIsTextNotSaved] = useState(false)
 
   useEffect(() => {
-    const marked = localStorage.getItem('file')
-    setMarkup(marked || '')
+    const items = {...localStorage};
+    setMarkupList(items)
+    selectFile(Object.keys(items).map((m) => m)[0], 0)
   }, [])
 
-  const handleChange = e => {
-    setIsTextNotSaved(markup !== '')
-    setMarkup(e.target.value);
+  const handleChange = (input) => (e) => {
+    setIsTextNotSaved(e.target.value !== '')
+    setMarkup({...markup, [input]: e.target.value});
   }
 
   import('highlight.js').then((hljs) => {
@@ -32,7 +42,7 @@ const App = () => {
     });
   })
 
-  const getMarkup = () => ({ __html: marked(markup) })
+  const getMarkup = () => ({ __html: marked(markup.value) })
 
   const toggleMessage = (text) => {
     setMessage(text)
@@ -43,55 +53,73 @@ const App = () => {
     }, 3000);
   }
 
-  const createFile = () => {
-    console.log('create File!');
-    setMarkup('')
+  const newFile = () => {
+    setMarkup({...clearMarkup()})
     setIsTextNotSaved(false)
-    input.current.focus();
+    input.current.focus()
+  }
+
+  const createFile = () => {
+    newFile()
   }
 
   const saveLocalStorage = () => {
     setIsTextNotSaved(false)
-    localStorage.setItem('file', markup)
+    const newFile = {
+      value: markup.value,
+      fileName: markup.fileName
+    }
+    if(!Object.keys(markupList).includes(markup.id)){
+      setMarkupList([...markupList, markup.id])
+    }
+    localStorage.setItem(markup.id, JSON.stringify(newFile))
     toggleMessage("Salvo!")
   }
 
   const removeLocalStorage = () => {
-    setIsTextNotSaved(false)
-    localStorage.removeItem('file')
-    setMarkup('')
+    localStorage.removeItem(markup.id)
+    setMarkupList(markupList.filter((item) => item !== markup.id))
+    newFile()
     toggleMessage("Removido!")
   }
 
+  const selectFile = (item, position) => {
+    const { fileName, value } = JSON.parse(localStorage.getItem(item))
+    setMarkup({
+      id: item,
+      value,
+      fileName
+    })
+  }
+
   return (
-    <>
-      <div className="App">
-        <div className="item">
-          <FileHeader isTextNotSaved={isTextNotSaved} theme="dark">
-            newFile.md
-          </FileHeader>
-          <textarea value={markup} onChange={handleChange} className="textarea" ref={input} autoFocus />
-        </div>
-        <div className="item">
-          <FileHeader isTextNotSaved={isTextNotSaved} theme="light">
-            Live Preview
-          </FileHeader>
-          <div className="result" dangerouslySetInnerHTML={getMarkup()}></div>
-        </div>
-        <Alert text={message} position="65%" animation="jump" />
-      </div>
+    <div className="cont">
+      <FileList markupList={markupList} markupId={markup.id} selectFile={selectFile} />
+      <header className="header">
+        <FileHeader isTextNotSaved={isTextNotSaved} theme="dark">
+          <textarea className="fileNameInput" value={markup.fileName} onChange={handleChange('fileName')} />
+        </FileHeader>
+        <FileHeader theme="light">
+          Live Preview
+        </FileHeader>
+      </header>
+      <main className="main-content">
+        <textarea value={markup.value} onChange={handleChange('value')} className="textarea item" ref={input} autoFocus />
+        <div className="result item" dangerouslySetInnerHTML={getMarkup()}></div>
+      </main>
+      <Alert text={message} position="65%" animation="jump" />
       <div className="btns">
-        <button className="btn btn-add" onClick={() => createFile()}>
+        <RoundButton btnStyle="btn-add" onClick={() => createFile()}>
           <FontAwesomeIcon icon={faPlus} />
-        </button>
-        <button className="btn btn-save" onClick={() => saveLocalStorage()}>
+        </RoundButton>
+        <RoundButton btnStyle="btn-save" onClick={() => saveLocalStorage()}>
           <FontAwesomeIcon icon={faSave} />
-        </button>
-        <button className="btn btn-remove" onClick={() => removeLocalStorage()}>
+        </RoundButton>
+        <RoundButton btnStyle="btn-remove" onClick={() => removeLocalStorage()}>
           <FontAwesomeIcon icon={faTimes} />
-        </button>
+        </RoundButton>
       </div>
-    </>
+    </div>
   );
 }
 
