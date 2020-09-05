@@ -118,6 +118,7 @@ body {
   transition-property: color, background-color;
   transform: perspective(1px) translateZ(0);
   margin-right: 0.5rem;
+  align-items: center;
 }
 
 .btns {
