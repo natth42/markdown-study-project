@@ -11,7 +11,7 @@ const FileHeader = ({ children, isTextNotSaved, theme }) => (
 )
 
 FileHeader.propTypes = {
-  children: PropTypes.string.isRequired,
+  children: PropTypes.node.isRequired,
   theme: PropTypes.string.isRequired,
   isTextNotSaved: PropTypes.bool
 }
