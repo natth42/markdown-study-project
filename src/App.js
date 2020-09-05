@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus, faSave, faTimes } from '@fortawesome/free-solid-svg-icons'
-import marked from '../node_modules/marked/lib/marked'
+import marked from 'marked'
 import { v4 } from 'node-uuid'
 import '../node_modules/highlight.js/styles/dracula.css'
 import './App.css'
@@ -42,7 +42,14 @@ const App = () => {
     });
   })
 
-  const getMarkup = () => ({ __html: marked(markup.value) })
+  const getMarkup = () => {
+    if(!markup.value)
+      return
+
+    return (
+      { __html: marked(markup.value) }
+    )
+  }
 
   const toggleMessage = (text) => {
     setMessage(text)
