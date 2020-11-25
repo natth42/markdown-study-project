@@ -6,7 +6,7 @@
     "@fortawesome/fontawesome-svg-core": "^1.2.25",
     "@fortawesome/free-solid-svg-icons": "^5.11.2",
     "@fortawesome/react-fontawesome": "^0.1.7",
-    "highlight.js": "^9.15.10",
+    "highlight.js": "^10.1.2",
     "marked": "^0.7.0",
     "node-uuid": "^1.4.8",
     "prop-types": "^15.7.2",
